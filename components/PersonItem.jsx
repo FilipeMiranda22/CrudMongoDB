@@ -1,16 +1,23 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaTrash, FaUserEdit } from "react-icons/fa";
 import ModalAddPerson from "./ModalAddPerson";
-import { Button } from "flowbite-react";
 import ModalDeletePerson from "./ModalDeletePerson";
 import ModalUpdatePerson from "./ModalUpdatePerson";
+import { useFetchPeople } from "@/hooks/useFetchPeople";
+import { useFetchStates } from "@/hooks/useFetchStates";
+import { useFetchHobbies } from "@/hooks/useFetchHobbies";
+import { api } from "@/utils/api";
+
 const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
-  const [people, setPeople] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [showModalUpdate, setShowModalUpdate] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const { people, setPeople } = useFetchPeople(showModalAdd, showModalUpdate);
+  const { states } = useFetchStates();
+  const { hobbies: listHobbies } = useFetchHobbies();
 
   const handleShowModalUpdate = (person) => {
     setSelectedPerson(person);
@@ -23,47 +30,29 @@ const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
   };
 
   const handleCloseModalUpdate = () => {
+    setSelectedPerson(null);
     setShowModalUpdate(false);
   };
 
   const handleCloseModalDelete = () => {
+    setSelectedPerson(null);
     setShowModalDelete(false);
   };
-
-  useEffect(() => {
-    async function fetchPeople() {
-      try {
-        const response = await fetch("http://localhost:3000/api/people");
-
-        if (!response.ok) {
-          throw new Error("Erro ao obter dados das pessoas");
-        }
-
-        const data = await response.json();
-        setPeople(data.people);
-      } catch (error) {
-        console.error(error.message);
-      }
-    }
-    fetchPeople();
-  }, [showModalAdd, showModalUpdate]);
 
   const handleDelete = async (personId) => {
     try {
       setLoading(true);
-      const response = await fetch(
-        `http://localhost:3000/api/people?id=${personId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`${api}/people?id=${personId}`, {
+        method: "DELETE",
+      });
 
       if (!response.ok) {
         throw new Error("Erro ao excluir pessoa");
       }
 
       // Atualiza a lista de pessoas após a exclusão bem-sucedida
-      const updatedPeople = people.filter((person) => person._id !== personId);
+      const updatedPeople =
+        people && people.filter((person) => person._id !== personId);
       setPeople(updatedPeople);
       setShowModalDelete(false);
       setLoading(false);
@@ -125,11 +114,15 @@ const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
       <ModalAddPerson
         handleClose={handleCloseModalAdd}
         showModal={showModalAdd}
+        states={states}
+        listHobbies={listHobbies}
       />
       <ModalUpdatePerson
         showModal={showModalUpdate}
         handleClose={handleCloseModalUpdate}
         person={selectedPerson}
+        states={states}
+        listHobbies={listHobbies}
       />
       <ModalDeletePerson
         person={selectedPerson && selectedPerson.name}
