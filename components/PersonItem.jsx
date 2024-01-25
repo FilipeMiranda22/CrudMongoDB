@@ -67,7 +67,7 @@ const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 p-5 bg-black bg-opacity-25">
         {people && people.length === 0 && (
           <div className="m-auto bg-slate-100 p-5">
             <p>Não há pessoas cadastradas!</p>
@@ -77,7 +77,7 @@ const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
           people.map((person) => (
             <div
               key={person._id}
-              className="flex w-[50vw] justify-between items-center p-5 bg-slate-100 rounded-md shadow-sm shadow-slate-800"
+              className="flex w-[50vw] justify-between items-center p-5 bg-slate-200 rounded-sm shadow-sm shadow-slate-800"
             >
               <div className="flex flex-col w-1/2">
                 <span>
@@ -98,12 +98,12 @@ const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
               </div>
               <div className="flex flex-col justify-between ml-6 h-14">
                 <FaUserEdit
-                  className="size-6 cursor-pointer hover:scale-110 transition-all text-blue-900"
+                  className="size-6 cursor-pointer hover:scale-110 transition-all text-cyan-800"
                   onClick={() => handleShowModalUpdate(person)}
                   title="Editar"
                 />
                 <FaTrash
-                  className="text-red-600 cursor-pointer hover:scale-110 transition-all size-5"
+                  className="text-red-700 cursor-pointer hover:scale-110 transition-all size-5"
                   onClick={() => handleShowModalDelete(person)}
                   title="Excluir"
                 />

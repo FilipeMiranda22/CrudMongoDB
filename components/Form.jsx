@@ -5,27 +5,20 @@ import { useEffect, useState } from "react";
 import { api } from "@/utils/api";
 
 const Form = ({ person, states, listHobbies, closeModal }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [selectedState, setSelectedState] = useState(null);
-  const [selectedCity, setSelectedCity] = useState("");
-  const [hobbies, setHobbies] = useState("");
+  const [name, setName] = useState(person ? person.name : "");
+  const [email, setEmail] = useState(person ? person.email : "");
+  const [selectedState, setSelectedState] = useState(
+    person
+      ? states && states.find((state) => state.name === person.state)
+      : null
+  );
+  const [selectedCity, setSelectedCity] = useState(person ? person.city : "");
+  const [hobbies, setHobbies] = useState(person ? person.hobbies : "");
   const [loading, setLoading] = useState(false);
 
   const { cities, setCities } = useFetchCities(selectedState);
 
-  useEffect(() => {
-    // Atualiza os campos do formulário quando a pessoa é alterada
-    if (person) {
-      setName(person.name || "");
-      setEmail(person.email || "");
-      setSelectedState(
-        (states && states.find((state) => state.name === person.state)) || null
-      );
-      setSelectedCity(person.city || "");
-      setHobbies(person.hobbies);
-    }
-  }, [person, states]);
+  console.log(selectedCity);
 
   const handleSubmit = async (e) => {
     try {
@@ -139,6 +132,7 @@ const Form = ({ person, states, listHobbies, closeModal }) => {
                   (state) => state.name === event.target.value
                 );
                 setSelectedState(selectedStateObject);
+                setSelectedCity("");
               }
             }}
           >
@@ -159,7 +153,7 @@ const Form = ({ person, states, listHobbies, closeModal }) => {
           </div>
           <Select
             id="city"
-            value={selectedCity}
+            value={selectedCity ? selectedCity : ""}
             disabled={!cities}
             required
             onChange={(event) => {
@@ -180,25 +174,25 @@ const Form = ({ person, states, listHobbies, closeModal }) => {
         <div>
           <Label className="mb-1 block" value="Hobbies:" />
           {listHobbies &&
-            listHobbies.map((hobbie) => (
-              <div key={hobbie._id} className="p-2 flex items-center gap-2">
+            listHobbies.map((hobby) => (
+              <div key={hobby._id} className="p-2 flex items-center gap-2">
                 <Checkbox
-                  id={hobbie._id}
+                  id={hobby._id}
                   className="cursor-pointer"
-                  checked={hobbies.includes(hobbie.hobbie)}
+                  checked={hobbies.includes(hobby.hobby)}
                   onChange={(event) => {
-                    const hobby = hobbie.hobbie;
+                    const hobbyName = hobby.hobby;
 
                     // Se o checkbox estiver marcado, adiciona o hobby ao array de hobbies
                     // Caso contrário, remove o hobby do array
                     setHobbies((prevHobbies) =>
                       event.target.checked
-                        ? [...prevHobbies, hobby]
-                        : prevHobbies.filter((id) => id !== hobby)
+                        ? [...prevHobbies, hobbyName]
+                        : prevHobbies.filter((id) => id !== hobbyName)
                     );
                   }}
                 />
-                <Label htmlFor={hobbie._id}>{hobbie.hobbie}</Label>
+                <Label htmlFor={hobby._id}>{hobby.hobby}</Label>
               </div>
             ))}
         </div>
