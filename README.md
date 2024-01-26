@@ -12,3 +12,5 @@ Para a api funcionar localmente, você deve ir na pasta utils/api.js
 Troque para export const api = "http://localhost:3000/api";
 Lembre-se de salvar a alteração no arquivo e se preciso, recarregar a página do http://localhost:3000.
 ```
+
+Link do Deploy: https://crud-mongo-db-test.vercel.app
