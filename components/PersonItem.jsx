@@ -77,17 +77,17 @@ const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
           people.map((person) => (
             <div
               key={person._id}
-              className="flex w-[50vw] justify-between items-center p-5 bg-slate-200 rounded-sm shadow-sm shadow-slate-800"
+              className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-5 bg-slate-200 rounded-sm shadow-sm shadow-slate-800"
             >
-              <div className="flex flex-col w-1/2">
-                <span>
+              <div className="flex flex-col w-11/12 sm:w-1/2">
+                <span className="sm:w-full">
                   <strong>Nome:</strong> {person.name}
                 </span>
                 <span>
                   <strong>Email:</strong> {person.email}
                 </span>
               </div>
-              <div className="flex flex-col w-1/2">
+              <div className="flex flex-col w-11/12 sm:w-1/2 sm:ml-4">
                 <span>
                   <strong>Cidade/Estado:</strong> {person.city} - (
                   {person.state})
@@ -96,7 +96,7 @@ const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
                   <strong>Hobbies:</strong> {person.hobbies.join(", ")}
                 </span>
               </div>
-              <div className="flex flex-col justify-between ml-6 h-14">
+              <div className="flex flex-col flex-initial ml-auto mt-4 justify-between sm:ml-6 sm:mt-0 h-14">
                 <FaUserEdit
                   className="size-6 cursor-pointer hover:scale-110 transition-all text-cyan-800"
                   onClick={() => handleShowModalUpdate(person)}
