@@ -67,7 +67,7 @@ const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-2 p-5 bg-black bg-opacity-25">
+      <div className="flex flex-col mb-32 gap-2 p-5 bg-black bg-opacity-25">
         {people && people.length === 0 && (
           <div className="m-auto bg-slate-100 p-5">
             <p>Não há pessoas cadastradas!</p>
