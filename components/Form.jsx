@@ -75,7 +75,6 @@ const Form = ({ person, states, listHobbies, closeModal }) => {
         throw new Error(`Erro ao ${person ? "atualizar" : "criar"} pessoa`);
       }
 
-      // Limpa os campos após a operação bem-sucedida
       if (!person) {
         setName("");
         setEmail("");
@@ -183,8 +182,6 @@ const Form = ({ person, states, listHobbies, closeModal }) => {
                   onChange={(event) => {
                     const hobbyName = hobby.hobby;
 
-                    // Se o checkbox estiver marcado, adiciona o hobby ao array de hobbies
-                    // Caso contrário, remove o hobby do array
                     setHobbies((prevHobbies) =>
                       event.target.checked
                         ? [...prevHobbies, hobbyName]

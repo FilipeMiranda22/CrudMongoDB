@@ -50,7 +50,6 @@ const PersonItem = ({ showModalAdd, handleCloseModalAdd }) => {
         throw new Error("Erro ao excluir pessoa");
       }
 
-      // Atualiza a lista de pessoas após a exclusão bem-sucedida
       const updatedPeople =
         people && people.filter((person) => person._id !== personId);
       setPeople(updatedPeople);
